@@ -113,7 +113,7 @@ namespace Project1
 
             // Un-scale cursor position to get its real position in our game
             translatedMousePos /= scaleAspect;
-            // Remove Offset applied to senter game window
+            // Remove Offset applied to center game window
             translatedMousePos -= screenOffset;
 
             // ** Un-scale cursor position Non LetterBoxing to get its real position in our game
