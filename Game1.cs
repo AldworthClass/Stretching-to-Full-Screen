@@ -60,12 +60,12 @@ namespace Project1
             float scaleX = (float)monitorWidth / (float)virtualWindow.Width;
             float scaleY = (float)monitorHeight / (float)virtualWindow.Height;
             
-            // For non letterboxing
+            // ** For non letterboxing
             //scale = new Vector2(scaleX, scaleY);
             // Creates transformatin matrix for non LetterBox scaling
             //scaleMatrix = Matrix.CreateScale(scaleX, scaleY, 1.0f);
 
-            // For Letterboxing
+            // ** For Letterboxing
             scaleAspect = Math.Min(scaleX, scaleY);
             // Calculates dimensions of the scaled game window on the monitor
             viewportWidth = virtualWindow.Width * scaleAspect;
@@ -100,7 +100,7 @@ namespace Project1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            // Updates the mouse each frame
             preKeyboardState = keyboardState;
             keyboardState = Keyboard.GetState();
 
@@ -111,10 +111,13 @@ namespace Project1
             translatedMousePos = mouseState.Position.ToVector2();
             
 
-            // Un-scale cursor position
+            // Un-scale cursor position to get its real position in our game
             translatedMousePos /= scaleAspect;
             // Remove Offset applied to senter game window
             translatedMousePos -= screenOffset;
+
+            // ** Un-scale cursor position Non LetterBoxing to get its real position in our game
+            // translatedMousePos /= scale;
 
             // Centers ship around cursor
             shipRect.X = (int)translatedMousePos.X - 10;
@@ -138,10 +141,9 @@ namespace Project1
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin(transformMatrix: scaleMatrix);
+
             _spriteBatch.Draw(backgroundTexture, virtualWindow, Color.White);
-
             _spriteBatch.Draw(shipTexture,shipRect, Color.White);
-
 
             _spriteBatch.End();
 
